@@ -1,4 +1,5 @@
 import unittest
+import requests
 from unittest.mock import patch, MagicMock
 from datetime import datetime, date, time
 from src import sport
@@ -33,17 +34,24 @@ def test_current_matches(mock_requests):
     mock_response.json.return_value = {
         "matches": [
             {
+                "id": 1,
+                "utcDate": "2023-04-19T18:30:00Z",
+                "status": "LIVE",
+                "score": {
+                    "winner": None,
+                    "fullTime": {
+                        "homeTeam": None,
+                        "awayTeam": None
+                    }
+                },
                 "homeTeam": {
-                    "name": "Team 1"
+                    "name": "Team A"
                 },
                 "awayTeam": {
-                    "name": "Team 2"
+                    "name": "Team B"
                 },
-                "score": {
-                    "fullTime": {
-                        "homeTeam": 1,
-                        "awayTeam": 0
-                    }
+                "competition": {
+                    "name": "Bundesliga"
                 }
             }
         ]
@@ -51,8 +59,8 @@ def test_current_matches(mock_requests):
 
     result = obj.get_current_matches()
 
-    assert result == [("Team 1", "Team 2", 1, 0)]
-    obj.get_current_matches()
+    expected_result = "Live match: Team A vs Team B, score: None - None"
+    assert result == expected_result
     mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
 
 
@@ -62,11 +70,11 @@ def test_current_matches_no_matches(mock_requests):
 
     mock_response = mock_requests.return_value
     mock_response.json.return_value = {
-        "matches": [{}]
+        "matches": []
     }
 
     result = obj.get_current_matches()
 
     expected_result = f"Currently, there is no live match happening. The next match is {obj.get_next_match()[1]} vs {obj.get_next_match()[2]} on {obj.get_next_match()[3]} at {obj.get_next_match()[4]}."
     assert result == expected_result
-    mock_requests.assert_called_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
+    mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
