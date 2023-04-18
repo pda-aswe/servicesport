@@ -69,7 +69,7 @@ def test_current_matches_no_matches(mock_requests):
 
     mock_response = mock_requests.return_value
     mock_response.json.return_value = {
-        "matches": []
+        "matches": [{}]
     }
 
     result = obj.get_current_matches()
