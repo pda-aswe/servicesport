@@ -4,7 +4,8 @@ from unittest.mock import patch, ANY, mock_open
 @patch("builtins.open")
 @patch("os.path.exists")
 @patch("requests.get")
-def test_next_match(self, mock_requests, mock_exists, mock_open):
+@patch("json.load")
+def test_next_match(mock_requests, mock_exists, mock_open):
     obj = sport.SportAPI()
     
     obj.get_next_match()
@@ -14,7 +15,7 @@ def test_next_match(self, mock_requests, mock_exists, mock_open):
 @patch("builtins.open")
 @patch("os.path.exists")
 @patch("requests.get")
-def test_current_matches(self, mock_requests, mock_exists, mock_open):
+def test_current_matches(mock_requests, mock_exists, mock_open):
     obj = sport.SportAPI()
     
     obj.get_current_matches()
