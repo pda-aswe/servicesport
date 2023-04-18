@@ -4,7 +4,6 @@ from unittest.mock import patch, ANY, mock_open
 @patch("builtins.open")
 @patch("os.path.exists")
 @patch("requests.get")
-@patch("json.load")
 def test_next_match(mock_requests, mock_exists, mock_open):
     obj = sport.SportAPI()
     
