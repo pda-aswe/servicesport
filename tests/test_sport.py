@@ -1,5 +1,7 @@
+import unittest
+from unittest.mock import patch, MagicMock
+from datetime import datetime, date, time
 from src import sport
-from unittest.mock import patch, ANY, mock_open
 
 @patch("requests.get")
 def test_next_match(mock_requests):
