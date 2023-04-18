@@ -60,7 +60,7 @@ def test_current_matches(mock_requests):
 
     assert result == [("Team 1", "Team 2", 1, 0)]
     obj.get_current_matches()
-    mock_requests.assert_called_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
+    mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
 
 
 @patch("requests.get")
@@ -69,11 +69,11 @@ def test_current_matches_no_matches(mock_requests):
 
     mock_response = mock_requests.return_value
     mock_response.json.return_value = {
-        "matches": [{}]
+        "matches": []
     }
 
     result = obj.get_current_matches()
 
     expected_result = f"Currently, there is no live match happening. The next match is {obj.get_next_match()[1]} vs {obj.get_next_match()[2]} on {obj.get_next_match()[3]} at {obj.get_next_match()[4]}."
     assert result == expected_result
-    mock_requests.assert_called_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
+    mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
