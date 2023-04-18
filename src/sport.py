@@ -15,7 +15,7 @@ class SportAPI:
     def get_next_match(self):
         # Request the next matchday
         response = requests.get(self.next_matchday_url, headers=self.headers)
-        matchday_data = json.dumps(response.content)
+        matchday_data = response.json()
 
         # Get the date and time of the next match
         next_match_data = matchday_data['matches'][0]
@@ -28,7 +28,7 @@ class SportAPI:
     def get_current_matches(self):
         # Request the current matches
         response = requests.get(self.get_current_matches, headers=self.headers)
-        current_matches_data = json.dumps(response.content)
+        current_matches_data = response.json()
 
         # If there are current matches happening, print their scores
         if len(current_matches_data['matches']) > 0:
