@@ -81,7 +81,7 @@ def test_current_matches_no_matches(mock_requests):
     if not next_match:
         expected_result += "There is no upcoming match."
     else:
-        expected_result += f"The next match is {next_match[1]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
+        expected_result += f"The next match is {next_match[0]}."
     
     assert result == expected_result
     mock_requests.assert_called_with(obj.current_matches_url, headers=obj.headers)
