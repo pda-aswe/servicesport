@@ -45,7 +45,7 @@ class SportAPI:
         else:
             next_match = self.get_next_match()
             message = f"Currently, there is no live match happening. The next match is {next_match[1]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
-            return message
+            return matches
 
     #def get_current_matches(self):
     #     # Request the current matches
