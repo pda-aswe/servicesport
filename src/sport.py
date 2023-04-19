@@ -27,8 +27,8 @@ class SportAPI:
     # Function to get the current matches and their scores, or a message if there are no matches currently happening
     def get_current_matches(self):
         response = requests.get("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=self.headers)
-        if response.status_code != 200:
-            raise ValueError("Failed to get data from API")
+        # if response.status_code != 200:
+        #     raise ValueError("Failed to get data from API")
         
         data = response.json()
         matches = []
