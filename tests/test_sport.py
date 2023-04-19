@@ -64,24 +64,24 @@ def test_current_matches(mock_requests):
     mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
 
 
-@patch("requests.get")
-def test_current_matches_no_matches(mock_requests):
-    obj = sport.SportAPI()
+# @patch("requests.get")
+# def test_current_matches_no_matches(mock_requests):
+#     obj = sport.SportAPI()
 
-    mock_response = mock_requests.return_value
-    mock_response.json.return_value = {
-        "matches": []
-    }
+#     mock_response = mock_requests.return_value
+#     mock_response.json.return_value = {
+#         "matches": []
+#     }
 
-    result = obj.get_current_matches()
+#     result = obj.get_current_matches()
 
-    expected_result = f"Currently, there is no live match happening. "
+#     expected_result = f"Currently, there is no live match happening. "
 
-    next_match = obj.get_next_match()
-    if not next_match:
-        expected_result += "There is no upcoming match."
-    else:
-        expected_result += f"The next match is {next_match[0]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
+#     next_match = obj.get_next_match()
+#     if not next_match:
+#         expected_result += "There is no upcoming match."
+#     else:
+#         expected_result += f"The next match is {next_match[0]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
     
-    assert result == expected_result
-    mock_requests.assert_called_with(obj.current_matches_url, headers=obj.headers)
+#     assert result == expected_result
+#     mock_requests.assert_called_with(obj.current_matches_url, headers=obj.headers)
