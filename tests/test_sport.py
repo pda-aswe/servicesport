@@ -48,7 +48,7 @@ def test_current_matches(mock_requests):
 
     result = obj.get_current_matches()
 
-    expected_result = "Live match: Team A vs Team B, score: None - None"
+    expected_result = [('Team A', 'Team B', None, None)]
     assert result == expected_result
     mock_requests.assert_called_once_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
 
