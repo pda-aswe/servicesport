@@ -76,10 +76,12 @@ def test_current_matches_no_matches(mock_requests):
     result = obj.get_current_matches()
 
     expected_result = f"Currently, there is no live match happening. "
-    if not obj.get_next_match():
+
+    next_match = obj.get_next_match()
+    if not next_match:
         expected_result += "There is no upcoming match."
     else:
-        expected_result += f"The next match is {obj.get_next_match()[1]} vs {obj.get_next_match()[2]} on {obj.get_next_match()[3]} at {obj.get_next_match()[4]}."
-    assert result == expected_result
-    mock_requests.assert_called_with("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=obj.headers)
+        expected_result += f"The next match is {next_match[1]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
     
+    assert result == expected_result
+    mock_requests.assert_called_with(obj.current_matches_url, headers=obj.headers)
