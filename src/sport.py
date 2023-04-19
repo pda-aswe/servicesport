@@ -33,7 +33,7 @@ class SportAPI:
         data = response.json()
         matches = []
         # If there are current matches happening, print their scores
-        if len(data['matches']) > 0:
+        if 'matches' in data and len(data['matches']) > 0:
             for match in data['matches']:
                 home_team = match['homeTeam']['name']
                 away_team = match['awayTeam']['name']
