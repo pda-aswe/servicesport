@@ -26,21 +26,43 @@ class SportAPI:
 
     # Function to get the current matches and their scores, or a message if there are no matches currently happening
     def get_current_matches(self):
-        # Request the current matches
-        response = requests.get(self.get_current_matches, headers=self.headers)
-        current_matches_data = response.json()
-
+        response = requests.get("https://api.football-data.org/v2/matches?competitions=BL1&status=LIVE", headers=self.headers)
+        if response.status_code != 200:
+            raise ValueError("Failed to get data from API")
+        
+        data = response.json()
+        matches = []
         # If there are current matches happening, print their scores
-        if len(current_matches_data['matches']) > 0:
-            matches = []
-            for match in current_matches_data['matches']:
-                matches.append((match['homeTeam']['name'], match['awayTeam']['name'], match['score']['fullTime']['homeTeam'], match['score']['fullTime']['awayTeam']))
+        if len(data['matches']) > 0:
+            for match in data['matches']:
+                home_team = match['homeTeam']['name']
+                away_team = match['awayTeam']['name']
+                score_home = match['score']['fullTime']['homeTeam']
+                score_away = match['score']['fullTime']['awayTeam']
+                matches.append((home_team, away_team, score_home, score_away))
             return matches
         # If there are no current matches happening, return a message and the details of the next match
         else:
             next_match = self.get_next_match()
             message = f"Currently, there is no live match happening. The next match is {next_match[1]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
             return message
+
+    #def get_current_matches(self):
+    #     # Request the current matches
+    #     response = requests.get(self.get_current_matches, headers=self.headers)
+    #     current_matches_data = response.json()
+
+    #     # If there are current matches happening, print their scores
+    #     if len(current_matches_data['matches']) > 0:
+    #         matches = []
+    #         for match in current_matches_data['matches']:
+    #             matches.append((match['homeTeam']['name'], match['awayTeam']['name'], match['score']['fullTime']['homeTeam'], match['score']['fullTime']['awayTeam']))
+    #         return matches
+    #     # If there are no current matches happening, return a message and the details of the next match
+    #     else:
+    #         next_match = self.get_next_match()
+    #         message = f"Currently, there is no live match happening. The next match is {next_match[1]} vs {next_match[2]} on {next_match[3]} at {next_match[4]}."
+    #         return message
 
 # # Example usage:
 # if __name__ == "__main__":

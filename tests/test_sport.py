@@ -39,11 +39,22 @@ def test_current_matches(mock_requests):
 
     mock_response = mock_requests.return_value
     mock_response.json.return_value = {
-        "matches": [{
-            "homeTeam": {"name": "Team A"},
-            "awayTeam": {"name": "Team B"},
-            "score": {"fullTime": {"homeTeam": None, "awayTeam": None}}
-        }]
+        "matches": [
+            {
+                "homeTeam": {
+                    "name": "Team A"
+                },
+                "awayTeam": {
+                    "name": "Team B"
+                },
+                "score": {
+                    "fullTime": {
+                        "homeTeam": None,
+                        "awayTeam": None
+                    }
+                }
+            }
+        ]
     }
 
     result = obj.get_current_matches()
